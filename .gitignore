@@ -1,0 +1,44 @@
+# === Node Modules ===
+client/node_modules/
+server/node_modules/
+
+# === Build Artifacts ===
+client/build/
+client/dist/
+server/dist/
+
+# === Environment Variables ===
+.env
+.env.* 
+client/.env
+server/.env
+
+# === Logs ===
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === TypeScript ===
+*.tsbuildinfo
+
+# === System/Editor Files ===
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# === Testing / Coverage ===
+coverage/
+*.lcov
+
+# === Tailwind CSS ===
+*.css.map
+
+# === Shadcn UI (if using theme generation or local caching) ===
+.shadcn/
+
+# === Optional: lock files (uncomment if using a specific package manager) ===
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
