@@ -1,12 +1,26 @@
-import { Response } from "express";
-import status from "http-status";
+import { TErrorSources, TGenericErrorResponse } from "../interface/error";
 
-const handlerDuplicateError = (err: any, res: Response) => {
-  res.status(status.CONFLICT).json({
-    success: false,
-    message: err.message,
-    error: err,
-  });
+const handleDuplicateError = (err: any): TGenericErrorResponse => {
+  // Extract value within double quotes using regex
+  const match = err.message.match(/"([^"]*)"/);
+
+  // The extracted value will be in the first capturing group
+  const extractedMessage = match && match[1];
+
+  const errorSources: TErrorSources = [
+    {
+      path: "",
+      message: `${extractedMessage} is already exists`,
+    },
+  ];
+
+  const statusCode = 400;
+
+  return {
+    statusCode,
+    message: "Invalid ID",
+    errorSources,
+  };
 };
 
-export default handlerDuplicateError;
+export default handleDuplicateError;
