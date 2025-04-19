@@ -4,4 +4,5 @@ export type TUser = {
   phoneNumber: string;
   password: string;
   role?: "user" | "admin";
+  isActive?: boolean;
 };
