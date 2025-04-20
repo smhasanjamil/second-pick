@@ -5,11 +5,11 @@ export type TAuth = {
   password: string;
 };
 
-export interface IJwtPayload {
-  id: string;
-  name: string;
-  email: string;
-  phoneNumber: string;
-  role?: "user" | "admin";
-  isActive: boolean;
-}
+// export interface IJwtPayload {
+//   id: string;
+//   name: string;
+//   email: string;
+//   phoneNumber: string;
+//   role?: "user" | "admin";
+//   isActive: boolean;
+// }

@@ -1,3 +1,5 @@
+import { USER_ROLE } from "../auth/auth.constant";
+
 export type TUser = {
   name: string;
   email: string;
@@ -6,3 +8,6 @@ export type TUser = {
   role?: "user" | "admin";
   isActive?: boolean;
 };
+
+
+export type TUserRole = keyof typeof USER_ROLE;

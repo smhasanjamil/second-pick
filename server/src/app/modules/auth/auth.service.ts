@@ -2,9 +2,9 @@ import status from "http-status";
 import bcrypt from "bcrypt";
 import AppError from "../../errors/AppError";
 import { UserModel } from "../user/user.model";
-import { IJwtPayload, TAuth } from "./auth.interface";
+import { TAuth } from "./auth.interface";
 
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../../config";
 
 const loginUser = async (payload: TAuth) => {
@@ -13,7 +13,7 @@ const loginUser = async (payload: TAuth) => {
   if (!user) {
     throw new AppError(status.NOT_FOUND, "This user is not found!");
   }
-  if (!user?.isActive) {
+  if (!user.isActive) {
     throw new AppError(status.FORBIDDEN, "User is not active!");
   }
 
@@ -21,11 +21,20 @@ const loginUser = async (payload: TAuth) => {
     throw new AppError(status.UNAUTHORIZED, "Invalid password!");
   }
 
-  const jwtPayload: IJwtPayload = {
+  // const jwtPayload: IJwtPayload = {
+  //   id: user?._id?.toString(),
+  //   name: user?.name as string,
+  //   email: user?.email as string,
+  //   phoneNumber: user?.phoneNumber as string,
+  //   role: user?.role,
+  //   isActive: user?.isActive,
+  // };
+
+  const jwtPayload = {
     id: user?._id?.toString(),
-    name: user?.name as string,
-    email: user?.email as string,
-    phoneNumber: user?.phoneNumber as string,
+    name: user?.name,
+    email: user?.email,
+    phoneNumber: user?.phoneNumber,
     role: user?.role,
     isActive: user?.isActive,
   };
@@ -34,9 +43,50 @@ const loginUser = async (payload: TAuth) => {
     expiresIn: "1d",
   });
 
-  return { accessToken };
+  const refreshToken = jwt.sign(
+    jwtPayload,
+    config.jwt_refresh_secret as string,
+    {
+      expiresIn: "10d",
+    }
+  );
+
+  return { accessToken, refreshToken };
+};
+
+const refreshToken = async (token: string) => {
+  const decoded = jwt.verify(
+    token,
+    config.jwt_refresh_secret as string
+  ) as JwtPayload;
+
+  const { email } = decoded;
+
+  const user = await UserModel.findOne({ email, isActive: true });
+
+  if (!user) {
+    throw new AppError(status.NOT_FOUND, "This user is not found!");
+  }
+
+  const jwtPayload = {
+    id: user?._id?.toString(),
+    name: user?.name,
+    email: user?.email,
+    phoneNumber: user?.phoneNumber,
+    role: user?.role,
+    isActive: user?.isActive,
+  };
+
+  const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
+    expiresIn: "1d",
+  });
+
+  return {
+    accessToken,
+  };
 };
 
 export const AuthService = {
   loginUser,
+  refreshToken,
 };

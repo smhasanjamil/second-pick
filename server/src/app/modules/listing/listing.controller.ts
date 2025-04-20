@@ -17,6 +17,9 @@ const createListing = catchAsync(async (req, res) => {
 });
 
 const getAllListing = catchAsync(async (req, res) => {
+  // console.log('testing', req.user);
+  console.log(req.cookies);
+
   const result = await listingServices.getAllListingFromDB(req.query);
 
   //   send response
