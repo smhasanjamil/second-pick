@@ -5,10 +5,10 @@ import { userValidations } from "./user.validation";
 
 const router = Router();
 
-router.post(
-  "/create-user",
-  validateRequest(userValidations.createUserValidationSchema),
-  userControllers.createUser
-);
+// router.post(
+//   "/create-user",
+//   validateRequest(userValidations.createUserValidationSchema),
+//   userControllers.createUser
+// );
 
 export const UserRoutes = router;
