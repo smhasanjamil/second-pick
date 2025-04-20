@@ -6,7 +6,7 @@ const createUserValidationSchema = z.object({
       .string({
         required_error: "Name is required",
       })
-      .min(1, "Name is required"),
+      .min(2, "Please enter a valid name"),
 
     email: z
       .string({

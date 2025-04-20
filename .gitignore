@@ -11,6 +11,7 @@ server/dist/
 .env
 .env.* 
 client/.env
+client/.env.local
 server/.env
 
 # === Logs ===
