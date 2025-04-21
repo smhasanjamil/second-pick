@@ -18,8 +18,10 @@ const listingValidationSchema = z.object({
       { message: "Category is required" }
     ),
     images: z
-      .array(z.string().url(), { message: "Images must be valid URLs" })
-      .min(1, { message: "At least one image is required" }),
+      .array(z.string().url().optional(), {
+        message: "Images must be valid URLs",
+      })
+      .optional(),
 
     userId: z.string().refine((val) => Types.ObjectId.isValid(val), {
       message: "User Id must be a valid ObjectId",

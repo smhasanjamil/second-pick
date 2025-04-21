@@ -38,7 +38,7 @@ const Navbar = () => {
 
   // Replace javascript:void(0) paths with your paths
   const navigation = [
-    { title: "Features", path: "/features" },
+    { title: "All Products", path: "/products" },
     { title: "Integrations", path: "/integration" },
     { title: "Customers", path: "/customers" },
     { title: "Pricing", path: "/pricing" },

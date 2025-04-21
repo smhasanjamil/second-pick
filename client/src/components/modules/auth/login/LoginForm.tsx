@@ -19,6 +19,7 @@ import { loginSchema } from "./loginValidation";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 const LoginForm = () => {
   const searchParams = useSearchParams();
@@ -33,8 +34,12 @@ const LoginForm = () => {
     formState: { isSubmitting },
   } = form;
 
+  const { setIsLoading } = useUser();
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
+      setIsLoading(true);
+
       const res = await loginUser(data);
       if (res?.success) {
         toast.success(res?.message);

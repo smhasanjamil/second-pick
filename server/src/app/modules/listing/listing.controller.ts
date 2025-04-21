@@ -4,8 +4,12 @@ import sendResponse from "../../utils/sendResponse";
 import { listingServices } from "./listing.service";
 
 const createListing = catchAsync(async (req, res) => {
-  const listing = req.body;
-  const result = await listingServices.createListingIntoDB(listing);
+  // const listing = req.body;
+  // const result = await listingServices.createListingIntoDB(listing);
+  const { body, files } = req;  // Destructure body and files from the request
+  const validFiles = Array.isArray(files) ? files : files?.["images"] || [];  // Handles single or multiple files
+
+  const result = await listingServices.createListingIntoDB(body, validFiles);  // Delegate to service layer
 
   //   send response
   sendResponse(res, {
@@ -18,7 +22,7 @@ const createListing = catchAsync(async (req, res) => {
 
 const getAllListing = catchAsync(async (req, res) => {
   // console.log('testing', req.user);
-  console.log(req.cookies);
+  // console.log(req.cookies);
 
   const result = await listingServices.getAllListingFromDB(req.query);
 

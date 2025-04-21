@@ -10,7 +10,7 @@ export type TListing = {
     country: string;
   };
   category: 'Electronics' | 'Furniture' | 'Clothing' | 'Books' | 'Home Appliances';
-  images: string[];
+  images?: string[];
   userId: Types.ObjectId;
   status: "available" | "sold";
 };
