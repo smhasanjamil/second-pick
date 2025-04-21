@@ -17,7 +17,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             <SidebarTrigger className="-ml-1" />
           </div>
         </header>
-        <div className="p-4 pt-0 min-h-screen bg-amber-200">{children}</div>
+        <div className="p-4 pt-0 min-h-screen ">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

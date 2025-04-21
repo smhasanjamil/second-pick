@@ -20,16 +20,15 @@ export const middleware = async (request: NextRequest) => {
       return NextResponse.next();
     } else {
       return NextResponse.redirect(
-        new URL(
-          `http://localhost:3000/login?redirectPath=${pathname}`,
-          request.url
-        )
+        new URL(`/login?redirectPath=${pathname}`, request.url)
       );
     }
   }
 
-  if (userInfo?.role && roleBasedPrivateRoutes[userInfo?.role as Role]) {
-    const routes = roleBasedPrivateRoutes[userInfo?.role as Role];
+  const userRole = userInfo?.role as Role;
+
+  if (userRole && roleBasedPrivateRoutes[userRole]) {
+    const routes = roleBasedPrivateRoutes[userRole];
     if (routes.some((route) => pathname.match(route))) {
       return NextResponse.next();
     }
@@ -39,5 +38,11 @@ export const middleware = async (request: NextRequest) => {
 };
 
 export const config = {
-  matcher: ["/login", "/dashboard", "/dashboard:page"],
+  matcher: [
+    "/login",
+    "/register",
+    "/dashboard/:path*",
+    "/admin/:path*",
+    "/user/:path*",
+  ],
 };

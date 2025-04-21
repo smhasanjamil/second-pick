@@ -25,7 +25,8 @@ const listingValidationSchema = z.object({
       message: "User Id must be a valid ObjectId",
     }),
 
-    status: z.enum(["available", "sold"], { message: "Status is required" }),
+    // status: z.enum(["available", "sold"], { message: "Status is required" }),
+    status: z.enum(["available", "sold"]).optional().default("available"),
   }),
 });
 
