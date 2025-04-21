@@ -17,17 +17,23 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut } from "lucide-react";
 import { logout } from "@/services/AuthService";
 import { useUser } from "@/context/UserContext";
+import { usePathname, useRouter } from "next/navigation";
+import { protectedRoutes } from "@/contants";
 
 const Navbar = () => {
+  
   const { user, setIsLoading } = useUser();
   const [state, setState] = useState(false);
+
+  const pathname = usePathname();
+  const router = useRouter();
 
   const handleLogOut = () => {
     logout();
     setIsLoading(true);
-    // if (protectedRoutes.some((route) => pathname.match(route))) {
-    //   router.push("/");
-    // }
+    if (protectedRoutes.some((route) => pathname.match(route))) {
+      router.push("/login");
+    }
   };
 
   // Replace javascript:void(0) paths with your paths
@@ -115,9 +121,9 @@ const Navbar = () => {
                           <DropdownMenuItem className="cursor-pointer">
                             Profile
                           </DropdownMenuItem>
-                          <DropdownMenuItem className="cursor-pointer">
+                          <Link href='/dashboard'><DropdownMenuItem className="cursor-pointer">
                             Dashboard
-                          </DropdownMenuItem>
+                          </DropdownMenuItem></Link>
                           <DropdownMenuItem className="cursor-pointer">
                             My Shop
                           </DropdownMenuItem>
